@@ -1,0 +1,246 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+         xmlns:owl="http://www.w3.org/2002/07/owl#"
+         xmlns:stud="http://students.org/"
+         xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+         xmlns="http://students.org/">
+
+<owl:Ontology rdf:about="http://students.org"/>
+
+<owl:ObjectProperty rdf:about="teaches">
+  <rdfs:domain rdf:resource="Person"/>
+  <rdfs:range rdf:resource="Course"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="attends">
+  <rdfs:domain rdf:resource="Person"/>
+  <rdfs:range rdf:resource="Course"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="has_sibling">
+  <rdfs:domain rdf:resource="Person"/>
+  <rdfs:range rdf:resource="Person"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="has_sister">
+  <rdfs:domain rdf:resource="Person"/>
+  <rdfs:range rdf:resource="Woman"/>
+  <rdfs:subPropertyOf rdf:resource="has_sibling"/>
+</owl:ObjectProperty>
+
+<owl:Class rdf:about="Course">
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+  <rdfs:subClassOf>
+    <owl:Class>
+      <owl:complementOf rdf:resource="Person"/>
+    </owl:Class>
+  </rdfs:subClassOf>
+</owl:Class>
+
+<owl:Class rdf:about="Man">
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+  <rdfs:subClassOf rdf:resource="Person"/>
+  <owl:disjointWith rdf:resource="Woman"/>
+</owl:Class>
+
+<owl:Class rdf:about="Woman">
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+  <rdfs:subClassOf rdf:resource="Person"/>
+</owl:Class>
+
+<rdf:Description rdf:about="Teacher">
+  <owl:equivalentClass>
+    <owl:Class>
+      <owl:intersectionOf rdf:parseType="Collection">
+        <rdf:Description rdf:about="Person"/>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="teaches"/>
+          <owl:someValuesFrom rdf:resource="Course"/>
+        </owl:Restriction>
+      </owl:intersectionOf>
+    </owl:Class>
+  </owl:equivalentClass>
+</rdf:Description>
+
+<rdf:Description rdf:about="Student">
+  <owl:equivalentClass>
+    <owl:Class>
+      <owl:intersectionOf rdf:parseType="Collection">
+        <rdf:Description rdf:about="Person"/>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="attends"/>
+          <owl:someValuesFrom rdf:resource="Course"/>
+        </owl:Restriction>
+      </owl:intersectionOf>
+    </owl:Class>
+  </owl:equivalentClass>
+</rdf:Description>
+
+<stud:Woman rdf:about="mary">
+  <stud:attends rdf:resource="cs600"/>
+</stud:Woman>
+
+<stud:Course rdf:about="cs600">
+  <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+</stud:Course>
+
+<stud:Woman rdf:about="alice">
+  <stud:teaches rdf:resource="cs600"/>
+  <stud:has_sibling rdf:resource="mary"/>
+</stud:Woman>
+
+<stud:Course rdf:about="cs101">
+  <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+</stud:Course>
+
+<stud:Man rdf:about="bob">
+  <stud:teaches rdf:resource="cs101"/>
+  <stud:attends rdf:resource="cs600"/>
+  <stud:has_sibling rdf:resource="alice"/>
+  <stud:has_sister rdf:resource="esther"/>
+</stud:Man>
+
+<swrl:Variable rdf:about="urn:swrl#x"/>
+
+<swrl:Variable rdf:about="urn:swrl#y"/>
+
+<swrl:Variable rdf:about="urn:swrl#z"/>
+
+<stud:Woman rdf:about="esther"/>
+
+<swrl:IndividualPropertyAtom>
+  <swrl:propertyPredicate rdf:resource="has_sibling"/>
+  <swrl:argument1 rdf:resource="urn:swrl#y"/>
+  <swrl:argument2 rdf:resource="urn:swrl#x"/>
+</swrl:IndividualPropertyAtom>
+
+<swrl:IndividualPropertyAtom>
+  <swrl:propertyPredicate rdf:resource="has_sibling"/>
+  <swrl:argument1 rdf:resource="urn:swrl#x"/>
+  <swrl:argument2 rdf:resource="urn:swrl#y"/>
+</swrl:IndividualPropertyAtom>
+
+<swrl:DifferentIndividualsAtom>
+  <swrl:argument1 rdf:resource="urn:swrl#x"/>
+  <swrl:argument2 rdf:resource="urn:swrl#y"/>
+</swrl:DifferentIndividualsAtom>
+
+<swrl:ClassAtom>
+  <swrl:classPredicate rdf:resource="Person"/>
+  <swrl:argument1 rdf:resource="urn:swrl#y"/>
+</swrl:ClassAtom>
+
+<swrl:ClassAtom>
+  <swrl:classPredicate rdf:resource="Person"/>
+  <swrl:argument1 rdf:resource="urn:swrl#x"/>
+</swrl:ClassAtom>
+
+<swrl:IndividualPropertyAtom>
+  <swrl:propertyPredicate rdf:resource="has_sibling"/>
+  <swrl:argument1 rdf:resource="urn:swrl#x"/>
+  <swrl:argument2 rdf:resource="urn:swrl#z"/>
+</swrl:IndividualPropertyAtom>
+
+<swrl:IndividualPropertyAtom>
+  <swrl:propertyPredicate rdf:resource="has_sibling"/>
+  <swrl:argument1 rdf:resource="urn:swrl#y"/>
+  <swrl:argument2 rdf:resource="urn:swrl#z"/>
+</swrl:IndividualPropertyAtom>
+
+<swrl:IndividualPropertyAtom>
+  <swrl:propertyPredicate rdf:resource="has_sibling"/>
+  <swrl:argument1 rdf:resource="urn:swrl#x"/>
+  <swrl:argument2 rdf:resource="urn:swrl#y"/>
+</swrl:IndividualPropertyAtom>
+
+<swrl:DifferentIndividualsAtom>
+  <swrl:argument1 rdf:resource="urn:swrl#x"/>
+  <swrl:argument2 rdf:resource="urn:swrl#z"/>
+</swrl:DifferentIndividualsAtom>
+
+<swrl:DifferentIndividualsAtom>
+  <swrl:argument1 rdf:resource="urn:swrl#y"/>
+  <swrl:argument2 rdf:resource="urn:swrl#z"/>
+</swrl:DifferentIndividualsAtom>
+
+<swrl:DifferentIndividualsAtom>
+  <swrl:argument1 rdf:resource="urn:swrl#x"/>
+  <swrl:argument2 rdf:resource="urn:swrl#y"/>
+</swrl:DifferentIndividualsAtom>
+
+<swrl:ClassAtom>
+  <swrl:classPredicate rdf:resource="Person"/>
+  <swrl:argument1 rdf:resource="urn:swrl#z"/>
+</swrl:ClassAtom>
+
+<swrl:ClassAtom>
+  <swrl:classPredicate rdf:resource="Person"/>
+  <swrl:argument1 rdf:resource="urn:swrl#y"/>
+</swrl:ClassAtom>
+
+<swrl:ClassAtom>
+  <swrl:classPredicate rdf:resource="Person"/>
+  <swrl:argument1 rdf:resource="urn:swrl#x"/>
+</swrl:ClassAtom>
+
+<swrl:Imp>
+  <swrl:body>
+    <rdf:Description>
+      <rdf:first>
+        <swrl:ClassAtom>
+          <swrl:classPredicate rdf:resource="Person"/>
+          <swrl:argument1 rdf:resource="urn:swrl#x"/>
+        </swrl:ClassAtom>
+      </rdf:first>
+      <rdf:rest>
+        <rdf:Description>
+          <rdf:first>
+            <swrl:ClassAtom>
+              <swrl:classPredicate rdf:resource="Person"/>
+              <swrl:argument1 rdf:resource="urn:swrl#y"/>
+            </swrl:ClassAtom>
+          </rdf:first>
+          <rdf:rest>
+            <rdf:Description>
+              <rdf:first>
+                <swrl:IndividualPropertyAtom>
+                  <swrl:propertyPredicate rdf:resource="has_sibling"/>
+                  <swrl:argument1 rdf:resource="urn:swrl#x"/>
+                  <swrl:argument2 rdf:resource="urn:swrl#y"/>
+                </swrl:IndividualPropertyAtom>
+              </rdf:first>
+              <rdf:rest>
+                <rdf:Description>
+                  <rdf:first>
+                    <swrl:ClassAtom>
+                      <swrl:classPredicate rdf:resource="Woman"/>
+                      <swrl:argument1 rdf:resource="urn:swrl#y"/>
+                    </swrl:ClassAtom>
+                  </rdf:first>
+                  <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                </rdf:Description>
+              </rdf:rest>
+            </rdf:Description>
+          </rdf:rest>
+        </rdf:Description>
+      </rdf:rest>
+    </rdf:Description>
+  </swrl:body>
+  <swrl:head>
+    <rdf:Description>
+      <rdf:first>
+        <swrl:IndividualPropertyAtom>
+          <swrl:propertyPredicate rdf:resource="has_sister"/>
+          <swrl:argument1 rdf:resource="urn:swrl#x"/>
+          <swrl:argument2 rdf:resource="urn:swrl#y"/>
+        </swrl:IndividualPropertyAtom>
+      </rdf:first>
+      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    </rdf:Description>
+  </swrl:head>
+</swrl:Imp>
+
+
+</rdf:RDF>
